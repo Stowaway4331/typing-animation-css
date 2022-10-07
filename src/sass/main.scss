@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+$ff-header: 'Courier Prime', monospace;
+$fw-header: 300;
+$cursor-color: black;
+$char-count-line1: 26;
+$char-count-line2: 13;
+$char-count-line3: 6;
+$bg-color: #fcfcee;
+$type-speed-line1: 2.5s;
+$type-speed-line2: 1.5s;
+$type-speed-line3: 1s;
+
+body {
+  height: 100vh;
+  background-color: $bg-color;
+  // background: radial-gradient(circle, #e3dac900, #e3dac980 85%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: $ff-header;
+  font-size: 7px;
+  @media (min-width: 350px) {
+    font-size: 10px;
+  }
+  @media (min-width: 550px) {
+    font-size: 16px;
+  }
+}
+
+header {
+  line-height: 1;
+}
+
+.hero {
+  font-weight: $fw-header;
+  position: relative;
+  width: max-content;
+}
+
+.hero::before,
+.hero::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hero::before {
+  background: $bg-color;
+
+  animation: typewriter $type-speed-line1 steps($char-count-line1) forwards 1s;
+
+  @keyframes typewriter {
+    to { left: 100%; width: 0; }
+  }
+}
+
+.hero::after {
+  width: 0.075em;
+  background-color: $cursor-color;
+
+  animation:
+    beginningCursor 1s forwards steps(1),
+    cursorMove $type-speed-line1 steps($char-count-line1) forwards 1s;
+
+  @keyframes beginningCursor {
+    0%, 40% {background-color: $cursor-color;}
+    40%, 90% {background-color: transparent;}
+    90%, 100% {background-color: $cursor-color;}
+  }
+
+  @keyframes cursorMove {
+    from { background: $cursor-color;}
+    99% {background: $cursor-color;}
+    to { left: 100%; background: transparent;}
+
+  }
+}
+
+.line2::before {
+  background: $bg-color;
+
+  animation: typewriter $type-speed-line2 steps($char-count-line2) forwards calc(1s + $type-speed-line1);
+}
+.line2::after {
+  background: transparent;
+  animation:
+    cursorMove $type-speed-line2 steps($char-count-line2) forwards calc(1s + $type-speed-line1);
+}
+
+.line3::before {
+  background: $bg-color;
+
+  animation: typewriter $type-speed-line3 steps($char-count-line3) forwards calc(1s + $type-speed-line1 + $type-speed-line2);
+}
+.line3::after {
+  background-color: transparent;
+
+  animation:
+  cursorMove $type-speed-line3 steps($char-count-line3) forwards calc(1s + $type-speed-line1 + $type-speed-line2),
+    cursorBlink 1s infinite steps(1) calc(1s + $type-speed-line1 + $type-speed-line2 + $type-speed-line3);
+
+    @keyframes cursorBlink {
+      0%, 50% {background-color: $cursor-color;}
+      50%, 100% {background-color: transparent;}
+    }
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  transform: translateY(-50%);
+  animation: showSubTitle 2s forwards ease-out calc(1.25s + $type-speed-line1 + $type-speed-line2 + $type-speed-line3);
+  color: transparent;
+
+  @keyframes showSubTitle {
+    0% {transform: translateY(150%); color: transparent;}
+    100% {color: $cursor-color; display: block;}
+  }
+}
